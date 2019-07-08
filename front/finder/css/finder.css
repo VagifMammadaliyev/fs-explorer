@@ -1,0 +1,234 @@
+/* HEADER */
+
+body {
+  background-color: #d7e5fa;
+
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .file {
+  padding: 20px;
+  margin: 20px;
+  background-color: #b1cdfa;
+  border-radius: 15px;
+  border: 3px solid blue;
+  max-width: 60%;
+  overflow-x: scroll;
+}
+
+header .user {
+  padding: 20px;
+  margin: 20px;
+  background-color: #ffc4c4;
+  border-radius: 15px;
+  border: 3px solid red;
+}
+
+header .file .file-path a,
+header .file .file-path a:visited,
+header .file .file-path a:hover {
+  cursor: pointer;
+  color: blue;
+  transition: color 0.2s ease-in-out
+}
+
+header .file .file-path a:hover {
+  color: white;
+}
+
+header .file.file-screen {
+  background-color: #d7d9d7;
+  border-color: black;
+  color: black;
+}
+
+header .file.file-screen .file-path,
+header .file.file-screen .file-name,
+header .file.file-screen .file-path a {
+  color: black;
+}
+
+header .file.file-screen .file-path a:hover {
+  color: white;
+}
+
+header .file .file-path,
+header .file .file-name,
+header .user .username {
+  margin: 5px;
+}
+
+header .file .file-name,
+header .file .file-path {
+  color: blue;
+}
+
+header .user .username {
+  color: red;
+}
+
+header .file .file-path {
+  color: blue;
+}
+
+header .user {
+  padding: 20px;
+  margin: 20px;
+}
+
+/* end HEADER */
+
+
+/* MAIN */
+
+main {
+  width: 80%;
+  margin: 0 auto;
+  font-weight: bold;
+}
+
+main .filenode-container {
+  display: flex;
+  flex-direction: column;
+}
+
+main .node-row .open-project {
+  border: 3px solid green;
+  font-size: 1.2em;
+  text-align: center;
+  color: green;
+  background-color: #deffdf;
+  margin: 5px;
+  float: right;
+  padding: 10px;
+  width: 18%;
+  border-radius: 15px;
+  transition: all 0.1s ease-in-out;
+}
+
+main .node-row .open-project:hover {
+  background-color: white;
+}
+
+main .node-row .hidden.open-project {
+  color: black;
+  background-color: #d7d9d7;
+  border-color: black;
+}
+
+main .node-row .hidden.open-project:hover {
+  background-color: white;
+}
+
+main .filenode {
+  border: 3px solid black;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 5px;
+  font-size: 1.2em;
+  display: flex;
+  justify-content: space-between;
+  background-color: #c7c7c7;
+}
+
+main .filenode {
+  transition: all 0.1s ease-in-out;
+}
+
+main .filenode.file {
+  background-color: #b1cdfa;
+  border-color: blue;
+  color: blue;
+}
+
+main .filenode.file:hover {
+  background-color: white;
+}
+
+main .filenode.directory {
+  width: 80%;
+  float: left;
+  background-color: #deffdf;
+  border-color: green;
+  color: green;
+}
+
+main .filenode.directory:hover {
+  background-color: white;
+}
+
+main .filenode.binary {
+  background-color: #ffc4c4;
+  border-color: red;
+  color: red;
+}
+
+main .filenode.binary:hover {
+  background-color: white;
+}
+
+main .filenode.hidden {
+  background-color: #d7d9d7;
+  border-color: black;
+  color: black;
+}
+
+/* end MAIN */
+
+/* EDITOR */
+/* look also in editor.css for typing are styles and more */
+
+main div.ide form {
+  display: flex;
+  flex-direction: column;
+}
+
+main div.ide .form-button {
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 10px;
+  margin: 5px;
+  margin-top: -25px;
+  align-self: center;
+  width: 90%;
+  transition: all 0.1s ease-in-out
+}
+
+main div.ide .form-button.save {
+  border: 3px solid green;
+  border-radius: 15px;
+  background-color: #deffdf;
+  color: green;
+}
+
+main div.ide .form-button.discard {
+  display: block;
+  text-align: center;
+  border: 3px solid red;
+  border-radius: 15px;
+  background-color: #ffc4c4;
+  color: red;
+  margin: 0 auto;
+}
+
+main div.ide .form-button.discard:hover {
+  background-color: white;
+}
+
+main div.ide .form-button.save:hover {
+  background-color: white;
+}
+
+main div.ide pre {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  height;
+}
+
+/* end EDITOR */
