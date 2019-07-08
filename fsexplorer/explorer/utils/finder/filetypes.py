@@ -5,3 +5,4 @@ class FileTypes:
                         # cannot be decoded to utf-8 or if file is not
                         # of other type provided in this class
     TEXT = 'text'       # all files that can be edited as text
+    OTHER = 'other'     # other filetypes, such as disk images, etc.

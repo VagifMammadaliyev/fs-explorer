@@ -36,6 +36,8 @@ def determine_type(path):
             return FileTypes.TEXT
         except UnicodeDecodeError:
             return FileTypes.NONTEXT
+        except OSError:
+            return FileTypes.OTHER
 
 
 def open_file(path, type):
@@ -45,7 +47,7 @@ def open_file(path, type):
         return content
 
     elif type == FileTypes.NONTEXT:
-        with open(open.path, 'rb') as f:
+        with open(path, 'rb') as f:
             content = f.read()
         return content
 
