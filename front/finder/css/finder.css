@@ -83,7 +83,6 @@ header .user {
 
 /* end HEADER */
 
-
 /* MAIN */
 
 main {
@@ -181,7 +180,7 @@ main .filenode.hidden {
 /* end MAIN */
 
 /* EDITOR */
-/* look also in editor.css for typing are styles and more */
+/* look also in editor.css for typing styles and more */
 
 main div.ide form {
   display: flex;
