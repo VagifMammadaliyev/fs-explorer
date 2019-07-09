@@ -7,11 +7,12 @@
       <pre>
         <div onclick="focusOnInput()" id="editor"></div>
       </pre>
-      <form>
+      <form method="post" action="{% url 'save_node' filenode.abspath %}">
+        {% csrf_token %}
         <textarea name="content" cursor-position="1" id="editor-input" rows="1" cols="100000" oninput="editorType(event)" onkeydown="editorType(event)" onkeyup="editorType(event)">{{ filenode.content }}</textarea>
         <button type="submit" class="form-button save" name="button">Save</button>
       </form>
-      <a href="#" class="form-button discard">Discard</a>
+      <a href="{{ filenode.parent_node }}" class="form-button discard">Discard</a>
     </div>
   </div>
 {% endblock content %}

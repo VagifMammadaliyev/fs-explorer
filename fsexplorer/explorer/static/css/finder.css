@@ -70,6 +70,11 @@ header .file .file-path {
 
 header .user .username {
   color: red;
+  transition: color 0.1s ease-in-out
+}
+
+header .user .username:hover {
+  color: white;
 }
 
 header .file .file-path {
@@ -181,6 +186,10 @@ main .filenode.hidden {
 
 /* EDITOR */
 /* look also in editor.css for typing styles and more */
+
+main div.ide {
+  margin-bottom: 20px;
+}
 
 main div.ide form {
   display: flex;

@@ -3,12 +3,14 @@ import os
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 
+from explorer.utils.finder.utils import normalize_path, get_paths
 from explorer.utils.finder.filenode import FileNode
 from explorer.utils.finder.filetypes import FileTypes
+from explorer.utils.editor import save_file
 
 
 def home(request):
-    homepath = os.path.join('Users', os.getlogin())
+    homepath = os.environ['HOME']
     return redirect(reverse('node', kwargs={'abspath': homepath}))
 
 
@@ -16,9 +18,11 @@ def node(request, abspath):
     filenode = FileNode(abspath)
 
     context = {
+        'paths': get_paths(filenode),
         'filenode': filenode,
         'username': os.getlogin(),
         'FileTypes': FileTypes,
+        'homepath': os.environ['HOME']
     }
 
     if filenode.type == FileTypes.FOLDER:
@@ -32,8 +36,18 @@ def node(request, abspath):
         return render(request, 'explorer/editor.html', context)
 
 
+def save_node(request, abspath):
+    if request.method == 'GET':
+        return redirect(reverse('node', kwargs={'abspath': abspath}))
+    elif request.method == 'POST':
+        filenode = FileNode(abspath)
+        content = request.POST['content']
+        save_file(filenode, content)
+        return redirect(reverse('node', kwargs={'abspath': filenode.parent_node}))
+
+
 def image(request, img_path):
-    with open(os.path.sep + img_path, 'rb') as f:
+    with open(normalize_path(img_path), 'rb') as f:
         img = f.read()
 
     return HttpResponse(img, content_type='image/png')

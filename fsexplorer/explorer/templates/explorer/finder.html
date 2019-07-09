@@ -7,7 +7,7 @@
       {% if node.hidden %}
       <a href="{{ node.abspath }}"><div class="filenode {% if node.type == FileTypes.FOLDER %}directory{% elif node.type == FileTypes.TEXT or node.type == FileTypes.NONTEXT %}file{% endif %} hidden">
         <p class="nodename">{{ node.name }}</p>
-        <p class="filetype">{% if node.type == FileTypes.FOLDER %}Hidden Folder{% elif node.type == FileTypes.TEXT or node.type == FileTypes.NONTEXT %}Hidden File{% endif %}</p>
+        <p class="filetype">{% if node.type == FileTypes.FOLDER %}Hidden {{ node.description }}{% elif node.type == FileTypes.TEXT or node.type == FileTypes.NONTEXT %}Hidden {{ node.description }}{% endif %}</p>
       </div></a>
       {% if node.type == FileTypes.FOLDER %}
       <a href="#" class="open-project hidden">Open as a project</a>
@@ -15,28 +15,28 @@
       {% elif node.type == FileTypes.FOLDER %}
       <a href="{{ node.abspath }}"><div class="filenode directory">
         <p class="nodename">{{ node.name }}</p>
-        <p class="filetype">Folder</p>
+        <p class="filetype">{{ node.description }}</p>
       </div></a>
       <a href="#" class="open-project">Open as a project</a>
       {% elif node.type == FileTypes.TEXT %}
       <a href="{{ node.abspath }}"><div class="filenode file">
         <p class="nodename">{{ node.name }}</p>
-        <p class="filetype">Text File</p>
+        <p class="filetype">{{ node.description }}</p>
       </div></a>
       {% elif node.type == FileTypes.NONTEXT %}
       <a href="{{ node.abspath }}"><div class="filenode binary">
         <p class="nodename">{{ node.name }}</p>
-        <p class="filetype">Binary File</p>
+        <p class="filetype">{{ node.description }}</p>
       </div></a>
       {% elif node.type == FileTypes.IMAGE %}
       <a href="{{ node.abspath }}"><div class="filenode binary">
         <p class="nodename">{{ node.name }}</p>
-        <p class="filetype">Image File</p>
+        <p class="filetype">{{ node.description }}</p>
       </div></a>
       {% elif node.type == FileTypes.OTHER %}
       <a href="{{ node.abspath }}"><div class="filenode binary">
         <p class="nodename">{{ node.name }}</p>
-        <p class="filetype">Other</p>
+        <p class="filetype">{{ node.description }}</p>
       </div></a>
       {% endif %}
     </div>

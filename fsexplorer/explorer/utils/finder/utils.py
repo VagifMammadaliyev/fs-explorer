@@ -1,10 +1,15 @@
 import os
-from explorer.utils.finder.filetypes import FileTypes
+from explorer.utils.finder.filetypes import FileTypes, descriptions
 from explorer.utils.errors.exceptions import InvalidPath
 
 _image_extensions = [
     '.tif', '.tiff', '.gif', 'jpeg', '.jpg', '.jif', '.jfif',
     '.jp2', '.jpx', '.j2k', '.j2c', '.fpx', '.pcd', '.png'
+]
+
+_video_extensions = [
+    '.3g2', '.3gp', '.avi', '.flv', '.h264', '.m4v', '.mkv',
+    '.mov', '.mp4', '.mpg', '.mpeg', '.rm', '.swf', '.vob', '.wmv'
 ]
 
 def normalize_path(path):
@@ -20,6 +25,22 @@ def normalize_path(path):
     return os.path.normpath(path)
 
 
+def get_paths(filenode):
+    """Returns list of tuples with path chunk names and related absolute paths"""
+    chunks = filenode.abspath.split(os.path.sep)
+    if chunks[0] == '':
+        chunks = chunks[1:]
+    paths = []
+
+    for i in range(len(chunks)):
+        path = []
+        for j in range(i + 1):
+            path.append(chunks[j])
+        path = normalize_path(os.path.sep.join(path))
+        paths.append(path)
+
+    return zip(chunks, paths)
+
 def determine_type(path):
     """Returns file type as FileTypes object"""
     if os.path.isdir(path):
@@ -28,6 +49,13 @@ def determine_type(path):
         for img_ext in _image_extensions:
             if path.endswith(img_ext):
                 return FileTypes.IMAGE
+
+        for vid_ext in _video_extensions:
+            if path.endswith(vid_ext):
+                return FileTypes.VIDEO
+
+        if path.endswith('.pdf'):
+            return FileTypes.PDF
 
         try:
             _f = open(path, 'rt')
@@ -38,6 +66,16 @@ def determine_type(path):
             return FileTypes.NONTEXT
         except OSError:
             return FileTypes.OTHER
+
+
+def  get_file_description(path):
+    filename = path.split(os.path.sep)[-1]
+
+    for ext, desc in descriptions.items():
+        if filename.endswith(ext):
+            return desc
+
+    return filename[filename.rfind('.')+1:].upper() + ' file'
 
 
 def open_file(path, type):

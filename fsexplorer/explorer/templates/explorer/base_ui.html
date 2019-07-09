@@ -14,11 +14,11 @@
         <div class="file {% if filenode.type != 'folder' %}file-screen{% endif %}">
           <h2 class="file-name">{{ filenode.name }}</h2>
           <h4 class="file-path">
-            /<a href="#">Users</a>/<a href="#">vagifmammadaliyev</a>/<a href="#">Desktop</a>
+            {% for chunk in paths %}/<a href="{{ chunk.1 }}">{{ chunk.0 }}</a>{% endfor %}
           </h4>
         </div>
         <div class="user">
-          <h2 class="username">{{ username }}</h2>
+          <a href="{{ homepath }}"><h2 class="username">{{ username }}</h2></a>
         </div>
       </header>
 
