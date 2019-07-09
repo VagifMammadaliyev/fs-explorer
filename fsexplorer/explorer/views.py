@@ -21,4 +21,19 @@ def node(request, abspath):
         'FileTypes': FileTypes,
     }
 
-    return render(request, 'explorer/finder.html', context)
+    if filenode.type == FileTypes.FOLDER:
+        return render(request, 'explorer/finder.html', context)
+    elif filenode.type == FileTypes.IMAGE:
+        return render(request, 'explorer/media_page.html', context)
+    elif filenode.type == FileTypes.TEXT or filenode.type == FileTypes.NONTEXT:
+        return render(request, 'explorer/editor.html', context)
+    elif filenode.type == FileTypes.OTHER:
+        context['message'] = 'This file type is not supported'
+        return render(request, 'explorer/editor.html', context)
+
+
+def image(request, img_path):
+    with open(os.path.sep + img_path, 'rb') as f:
+        img = f.read()
+
+    return HttpResponse(img, content_type='image/png')

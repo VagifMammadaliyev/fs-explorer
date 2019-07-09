@@ -30,7 +30,9 @@ class FileNode:
 
     def _sort(self):
         if self.type == FileTypes.FOLDER:
-            hiddens = [node for node in self.content if node.hidden]
+            hiddens = sorted(
+                        [node for node in self.content if node.hidden],
+                        key=lambda x: x.name)
             non_hiddens = sorted(
                             [node for node in self.content if not node.hidden],
                             key=lambda x: x.name)

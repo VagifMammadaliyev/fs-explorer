@@ -1,13 +1,14 @@
-{% extends 'base_ui.html' %}
+{% extends 'explorer/base_ui.html' %}
 
 {% block content %}
+  <p style="text-align: center">{{ message }}</p>
   <div class="ide-container">
     <div class="ide">
       <pre>
         <div onclick="focusOnInput()" id="editor"></div>
       </pre>
       <form>
-        <textarea name="content" cursor-position="1" id="editor-input" rows="1" cols="100000" oninput="editorType(event)" onkeydown="editorType(event)" onkeyup="editorType(event)"></textarea>
+        <textarea name="content" cursor-position="1" id="editor-input" rows="1" cols="100000" oninput="editorType(event)" onkeydown="editorType(event)" onkeyup="editorType(event)">{{ filenode.content }}</textarea>
         <button type="submit" class="form-button save" name="button">Save</button>
       </form>
       <a href="#" class="form-button discard">Discard</a>

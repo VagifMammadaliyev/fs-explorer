@@ -1,0 +1,9 @@
+{% extends 'explorer/base_ui.html' %}
+
+{% block content %}
+  <div class="image-container">
+    <div class="image">
+      <img class="center" src="{% url 'image' filenode.content %}" alt="{{ filenode.name }}">
+    </div>
+  </div>
+{% endblock content%}

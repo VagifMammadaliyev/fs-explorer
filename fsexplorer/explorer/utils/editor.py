@@ -2,6 +2,7 @@ from explorer.utils.finder.filenode import FileNode
 from explorer.utils.finder.filetypes import FileTypes
 
 
+# Unecessary for now
 def load_file(path):
     """Returns FileNode object"""
     return FileNode(path)
