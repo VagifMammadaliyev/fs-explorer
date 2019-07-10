@@ -99,6 +99,40 @@ main {
 main .filenode-container {
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
+}
+
+main .create-node {
+  margin-top: 20px;
+  display: flex;
+}
+
+main form.create-node-form {
+  display: none;
+  text-align: center;
+}
+
+main form.create-node-form input {
+  border: 3px solid blue;
+  width: 99%;
+  border-radius: 15px;
+  font-size: 1.2em;
+  padding: 10px;
+  color: blue;
+  font-weight: bold;
+  background-color: #b1cdfa;
+  outline: none;
+  margin: 0 auto;
+}
+
+main form.create-node-form button.save {
+  width: 99%;
+  margin-top: 5px;
+}
+
+main form.create-node-form input:hover,
+main form.create-node-form input:focus {
+  background-color: white;
 }
 
 main .node-row .open-project {
@@ -184,7 +218,7 @@ main .filenode.hidden {
 
 /* end MAIN */
 
-/* EDITOR */
+/* EDITOR + BUTTONS */
 /* look also in editor.css for typing styles and more */
 
 main div.ide {
@@ -196,7 +230,7 @@ main div.ide form {
   flex-direction: column;
 }
 
-main div.ide .form-button {
+.form-button {
   font-size: 1.2em;
   font-weight: bold;
   padding: 10px;
@@ -207,14 +241,22 @@ main div.ide .form-button {
   transition: all 0.1s ease-in-out
 }
 
-main div.ide .form-button.save {
+.form-button.save {
   border: 3px solid green;
   border-radius: 15px;
   background-color: #deffdf;
   color: green;
 }
 
-main div.ide .form-button.discard {
+.form-button.create {
+  border: 3px solid blue;
+  border-radius: 15px;
+  background-color: #b1cdfa;
+  color: blue;
+  width: 50%;
+}
+
+.form-button.discard {
   display: block;
   text-align: center;
   border: 3px solid red;
@@ -224,11 +266,9 @@ main div.ide .form-button.discard {
   margin: 0 auto;
 }
 
-main div.ide .form-button.discard:hover {
-  background-color: white;
-}
-
-main div.ide .form-button.save:hover {
+.form-button.discard:hover,
+.form-button.create:hover,
+.form-button.save:hover {
   background-color: white;
 }
 

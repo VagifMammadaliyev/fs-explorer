@@ -1,7 +1,9 @@
 {% extends 'explorer/base_ui.html' %}
 
 {% block content %}
-  <p style="text-align: center">{{ message }}</p>
+  {% if message %}
+    <p style="text-align: center">{{ message }}</p>
+  {% endif %}
   <div class="ide-container">
     <div class="ide">
       <pre>

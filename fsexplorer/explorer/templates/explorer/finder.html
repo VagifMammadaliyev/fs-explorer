@@ -1,6 +1,15 @@
 {% extends 'explorer/base_ui.html' %}
 
 {% block content %}
+  <div class="create-node">
+    <button id="file-create-button" type="button" class="form-button create" onclick="createNodeForm('file')" name="button">Create file</button>
+    <button id="folder-create-button" type="button" class="form-button create" onclick="createNodeForm('folder')" name="button">Create folder</button>
+  </div>
+  <form id="node-form" class="create-node-form" method="post" action="{% url 'create_node' filenode.abspath %}">
+    {% csrf_token %}
+    <input id="node-name-input" type="text" name="" value="">
+    <button type="submit" class="form-button save" name="button">Save</button>
+  </form>
   <div class="filenode-container">
     {% for node in filenode.content %}
     <div class="node-row">

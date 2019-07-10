@@ -71,7 +71,7 @@ def determine_type(path):
             return FileTypes.OTHER
 
 
-def  get_file_description(path):
+def get_file_description(path):
     filename = path.split(os.path.sep)[-1]
 
     for ext, desc in descriptions.items():

@@ -29,7 +29,10 @@ def node(request, abspath):
         return render(request, 'explorer/finder.html', context)
     elif filenode.type == FileTypes.IMAGE:
         return render(request, 'explorer/media_page.html', context)
-    elif filenode.type == FileTypes.TEXT or filenode.type == FileTypes.NONTEXT:
+    elif filenode.type == FileTypes.TEXT:
+        return render(request, 'explorer/editor.html', context)
+    elif filenode.type == FileTypes.NONTEXT:
+        context['message'] = 'Please edit this file as Python\'s byte string'
         return render(request, 'explorer/editor.html', context)
     elif filenode.type == FileTypes.VIDEO:
         return render(request, 'explorer/media_page.html', context)
@@ -40,6 +43,25 @@ def node(request, abspath):
         return render(request, 'explorer/editor.html', context)
 
 
+def create_node(request, abspath):
+    if request.method == 'GET':
+        return redirect(reverse('node', kwargs={'abspath': abspath}))
+    elif request.method == 'POST':
+        abspath = normalize_path(abspath)
+
+        file_name = request.POST.get('file_name')
+        folder_name = request.POST.get('folder_name')
+        resulting_path = os.path.join(abspath, file_name or folder_name)
+
+        if file_name:
+            open(resulting_path, 'x').close()
+        elif folder_name:
+            os.makedirs(resulting_path)
+
+        return redirect(reverse('node', kwargs={'abspath': abspath}))
+
+
+
 def save_node(request, abspath):
     if request.method == 'GET':
         return redirect(reverse('node', kwargs={'abspath': abspath}))
@@ -48,6 +70,8 @@ def save_node(request, abspath):
         content = request.POST['content']
         save_file(filenode, content)
         return redirect(reverse('node', kwargs={'abspath': filenode.parent_node}))
+    else:
+        return HttpResponse('<p>This request method is not supported</p>')
 
 
 def image(request, img_path):
