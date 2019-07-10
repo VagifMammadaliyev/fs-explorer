@@ -1,6 +1,6 @@
 import os
-from explorer.utils.finder import utils
-from explorer.utils.finder.filetypes import FileTypes
+from explorer.utils import utils
+from explorer.utils.filetypes import FileTypes
 from explorer.utils.errors.exceptions import CannotWriteToThisFileType
 
 
@@ -24,14 +24,12 @@ class FileNode:
                 self.content = [FileNode(os.path.join(self.abspath, item), to_list=True)
                                 for item in os.listdir(self.abspath)]
                 self._sort()
-            elif self.type == FileTypes.IMAGE:
+            elif self.type == FileTypes.IMAGE \
+                or self.type == FileTypes.PDF \
+                    or self.type == FileTypes.VIDEO:
                 self.content = self.abspath
             elif self.type == FileTypes.NONTEXT or self.type == FileTypes.TEXT:
                 self.content = utils.open_file(self.abspath, self.type)
-            elif self.type == FileTypes.PDF:
-                self.content = self.abspath
-            elif self.type == FileTypes.VIDEO:
-                self.content = self.abspath
             elif self.type == FileTypes.OTHER:
                 self.content = '?'
 
@@ -55,3 +53,9 @@ class FileNode:
             raise CannotWriteToThisFileType(
                 'Attempted to write to filenode with type: {}'
                     .format(self.type))
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return '<FileNode name={}; type={}>'.format(self.name, self.type)

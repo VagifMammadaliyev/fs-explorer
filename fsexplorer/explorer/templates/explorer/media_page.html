@@ -3,7 +3,13 @@
 {% block content %}
   <div class="image-container">
     <div class="image">
+      {% if filenode.type == FileTypes.IMAGE %}
       <img class="center" src="{% url 'image' filenode.content %}" alt="{{ filenode.name }}">
+      {% elif filenode.type == FileTypes.VIDEO %}
+      <video class="center" controls>
+        <source src="{% url 'video' filenode.content %}" type="video/mp4">
+      </video>
+      {% endif %}
     </div>
   </div>
 {% endblock content%}

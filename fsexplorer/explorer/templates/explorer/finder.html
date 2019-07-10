@@ -33,6 +33,16 @@
         <p class="nodename">{{ node.name }}</p>
         <p class="filetype">{{ node.description }}</p>
       </div></a>
+      {% elif node.type == FileTypes.VIDEO %}
+      <a href="{{ node.abspath }}"><div class="filenode binary">
+        <p class="nodename">{{ node.name }}</p>
+        <p class="filetype">{{ node.description }}</p>
+      </div></a>
+      {% elif node.type == FileTypes.PDF %}
+      <a href="{{ node.abspath }}"><div class="filenode binary">
+        <p class="nodename">{{ node.name }}</p>
+        <p class="filetype">{{ node.description }}</p>
+      </div></a>
       {% elif node.type == FileTypes.OTHER %}
       <a href="{{ node.abspath }}"><div class="filenode binary">
         <p class="nodename">{{ node.name }}</p>

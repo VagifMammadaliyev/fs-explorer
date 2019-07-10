@@ -3,9 +3,9 @@ import os
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 
-from explorer.utils.finder.utils import normalize_path, get_paths
-from explorer.utils.finder.filenode import FileNode
-from explorer.utils.finder.filetypes import FileTypes
+from explorer.utils import normalize_path, get_paths, pdf_response
+from explorer.utils.filenode import FileNode
+from explorer.utils.filetypes import FileTypes
 from explorer.utils.editor import save_file
 
 
@@ -31,6 +31,10 @@ def node(request, abspath):
         return render(request, 'explorer/media_page.html', context)
     elif filenode.type == FileTypes.TEXT or filenode.type == FileTypes.NONTEXT:
         return render(request, 'explorer/editor.html', context)
+    elif filenode.type == FileTypes.VIDEO:
+        return render(request, 'explorer/media_page.html', context)
+    elif filenode.type == FileTypes.PDF:
+        return pdf_response(filenode)
     elif filenode.type == FileTypes.OTHER:
         context['message'] = 'This file type is not supported'
         return render(request, 'explorer/editor.html', context)
@@ -51,3 +55,14 @@ def image(request, img_path):
         img = f.read()
 
     return HttpResponse(img, content_type='image/png')
+
+def video(request, vid_path):
+    from wsgiref.util import FileWrapper
+
+    video_node = FileNode(vid_path)
+    file = FileWrapper(open(video_node.abspath, 'rb'))
+
+    response = HttpResponse(file, content_type='video/mp4')
+    response['Content-Disposition'] = 'attachment; filename={}'.format(video_node.name)
+
+    return response

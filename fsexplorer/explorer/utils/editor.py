@@ -1,5 +1,5 @@
-from explorer.utils.finder.filenode import FileNode
-from explorer.utils.finder.filetypes import FileTypes
+from explorer.utils.filenode import FileNode
+from explorer.utils.filetypes import FileTypes
 
 
 # Unecessary for now

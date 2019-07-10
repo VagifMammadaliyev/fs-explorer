@@ -1,5 +1,8 @@
 import os
-from explorer.utils.finder.filetypes import FileTypes, descriptions
+
+from django.http import FileResponse
+
+from explorer.utils.filetypes import FileTypes, descriptions
 from explorer.utils.errors.exceptions import InvalidPath
 
 _image_extensions = [
@@ -54,7 +57,7 @@ def determine_type(path):
             if path.endswith(vid_ext):
                 return FileTypes.VIDEO
 
-        if path.endswith('.pdf'):
+        if path.lower().endswith('.pdf'):
             return FileTypes.PDF
 
         try:
@@ -72,13 +75,14 @@ def  get_file_description(path):
     filename = path.split(os.path.sep)[-1]
 
     for ext, desc in descriptions.items():
-        if filename.endswith(ext):
+        if filename.lower().endswith(ext):
             return desc
 
     return filename[filename.rfind('.')+1:].upper() + ' file'
 
 
 def open_file(path, type):
+    """Returns file's content"""
     if type == FileTypes.TEXT:
         with open(path, 'rt') as f:
             content = f.read()
@@ -91,3 +95,9 @@ def open_file(path, type):
 
     else:
         return 'Something went wrong!'
+
+
+def pdf_response(filenode):
+    import io
+    buffer = io.BytesIO(open_file(filenode.abspath, FileTypes.NONTEXT))
+    return FileResponse(buffer, as_attachment=False, filename=filenode.name)
