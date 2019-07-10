@@ -143,6 +143,7 @@ descriptions = {
     '.msi': 'Windows installer package',
     '.sys': 'Windows system file',
     '.tmp': 'Temporary file',
+    '.DS_Store': 'macOS Finder related file',
 
     # Word processors
     '.doc': 'Microsoft Word file',

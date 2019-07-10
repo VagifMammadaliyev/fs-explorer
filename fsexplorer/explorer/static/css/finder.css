@@ -100,11 +100,12 @@ main .filenode-container {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 main .create-node {
-  margin-top: 20px;
   display: flex;
+  justify-content: space-between;
 }
 
 main form.create-node-form {
@@ -114,7 +115,7 @@ main form.create-node-form {
 
 main form.create-node-form input {
   border: 3px solid blue;
-  width: 99%;
+  width: 100%;
   border-radius: 15px;
   font-size: 1.2em;
   padding: 10px;
@@ -122,12 +123,12 @@ main form.create-node-form input {
   font-weight: bold;
   background-color: #b1cdfa;
   outline: none;
-  margin: 0 auto;
+  margin: 5px 0 5px 0; auto;
 }
 
 main form.create-node-form button.save {
-  width: 99%;
-  margin-top: 5px;
+  width: 100%;
+  margin-top: 0px;
 }
 
 main form.create-node-form input:hover,
@@ -167,7 +168,7 @@ main .filenode {
   border: 3px solid black;
   border-radius: 15px;
   padding: 10px;
-  margin: 5px;
+  margin: 5px 0 5px 0;
   font-size: 1.2em;
   display: flex;
   justify-content: space-between;
@@ -231,14 +232,14 @@ main div.ide form {
 }
 
 .form-button {
+  width: 100%;
+  margin: 5px 0 5px 0;
   font-size: 1.2em;
   font-weight: bold;
   padding: 10px;
-  margin: 5px;
   margin-top: -25px;
   align-self: center;
-  width: 90%;
-  transition: all 0.1s ease-in-out
+  transition: all 0.1s ease-in-out;
 }
 
 .form-button.save {
@@ -253,7 +254,9 @@ main div.ide form {
   border-radius: 15px;
   background-color: #b1cdfa;
   color: blue;
-  width: 50%;
+  width: 49.5%;
+  margin-top: 10px;
+  margin-bottom: 0;
 }
 
 .form-button.discard {
@@ -280,3 +283,9 @@ main div.ide pre {
 }
 
 /* end EDITOR */
+
+
+/* MIXINS */
+.full-width {
+  width: 100% !important;
+}

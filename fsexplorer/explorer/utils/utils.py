@@ -48,6 +48,7 @@ def determine_type(path):
     """Returns file type as FileTypes object"""
     if os.path.isdir(path):
         return FileTypes.FOLDER
+        
     else:
         for img_ext in _image_extensions:
             if path.endswith(img_ext):
@@ -75,7 +76,7 @@ def get_file_description(path):
     filename = path.split(os.path.sep)[-1]
 
     for ext, desc in descriptions.items():
-        if filename.lower().endswith(ext):
+        if filename.lower().endswith(ext.lower()):
             return desc
 
     return filename[filename.rfind('.')+1:].upper() + ' file'

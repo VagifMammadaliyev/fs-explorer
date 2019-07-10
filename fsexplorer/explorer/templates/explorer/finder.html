@@ -5,28 +5,29 @@
     <button id="file-create-button" type="button" class="form-button create" onclick="createNodeForm('file')" name="button">Create file</button>
     <button id="folder-create-button" type="button" class="form-button create" onclick="createNodeForm('folder')" name="button">Create folder</button>
   </div>
+
   <form id="node-form" class="create-node-form" method="post" action="{% url 'create_node' filenode.abspath %}">
     {% csrf_token %}
     <input id="node-name-input" type="text" name="" value="">
     <button type="submit" class="form-button save" name="button">Save</button>
   </form>
+
   <div class="filenode-container">
     {% for node in filenode.content %}
     <div class="node-row">
       {% if node.hidden %}
-      <a href="{{ node.abspath }}"><div class="filenode {% if node.type == FileTypes.FOLDER %}directory{% elif node.type == FileTypes.TEXT or node.type == FileTypes.NONTEXT %}file{% endif %} hidden">
+      <a href="{{ node.abspath }}"><div class="filenode {% if node.type == FileTypes.FOLDER %}directory{% elif node.type == FileTypes.TEXT or node.type == FileTypes.NONTEXT %}file{% endif %} hidden full-width">
         <p class="nodename">{{ node.name }}</p>
         <p class="filetype">{% if node.type == FileTypes.FOLDER %}Hidden {{ node.description }}{% elif node.type == FileTypes.TEXT or node.type == FileTypes.NONTEXT %}Hidden {{ node.description }}{% endif %}</p>
       </div></a>
-      {% if node.type == FileTypes.FOLDER %}
-      <a href="#" class="open-project hidden">Open as a project</a>
-      {% endif %}
       {% elif node.type == FileTypes.FOLDER %}
-      <a href="{{ node.abspath }}"><div class="filenode directory">
+      <a href="{{ node.abspath }}"><div class="filenode directory {% if not in_projects_dir %}full-width{% endif %}">
         <p class="nodename">{{ node.name }}</p>
         <p class="filetype">{{ node.description }}</p>
       </div></a>
+      {% if in_projects_dir %}
       <a href="#" class="open-project">Open as a project</a>
+      {% endif %}
       {% elif node.type == FileTypes.TEXT %}
       <a href="{{ node.abspath }}"><div class="filenode file">
         <p class="nodename">{{ node.name }}</p>

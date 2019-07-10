@@ -26,26 +26,36 @@ def node(request, abspath):
     }
 
     if filenode.type == FileTypes.FOLDER:
+        projects_dir = os.environ.get('FSEXPLORER_PROJECTS_DIRNAME', 'projects')
+        context['in_projects_dir'] = filenode.name.lower() == projects_dir
         return render(request, 'explorer/finder.html', context)
+
     elif filenode.type == FileTypes.IMAGE:
         return render(request, 'explorer/media_page.html', context)
+
     elif filenode.type == FileTypes.TEXT:
         return render(request, 'explorer/editor.html', context)
+
     elif filenode.type == FileTypes.NONTEXT:
         context['message'] = 'Please edit this file as Python\'s byte string'
         return render(request, 'explorer/editor.html', context)
+
     elif filenode.type == FileTypes.VIDEO:
         return render(request, 'explorer/media_page.html', context)
+
     elif filenode.type == FileTypes.PDF:
         return pdf_response(filenode)
+
     elif filenode.type == FileTypes.OTHER:
         context['message'] = 'This file type is not supported'
         return render(request, 'explorer/editor.html', context)
 
 
+
 def create_node(request, abspath):
     if request.method == 'GET':
         return redirect(reverse('node', kwargs={'abspath': abspath}))
+
     elif request.method == 'POST':
         abspath = normalize_path(abspath)
 
@@ -65,11 +75,13 @@ def create_node(request, abspath):
 def save_node(request, abspath):
     if request.method == 'GET':
         return redirect(reverse('node', kwargs={'abspath': abspath}))
+
     elif request.method == 'POST':
         filenode = FileNode(abspath)
         content = request.POST['content']
         save_file(filenode, content)
         return redirect(reverse('node', kwargs={'abspath': filenode.parent_node}))
+        
     else:
         return HttpResponse('<p>This request method is not supported</p>')
 
