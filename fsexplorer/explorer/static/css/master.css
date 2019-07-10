@@ -5,6 +5,7 @@
   box-sizing: border-box;
   /* border: 1px solid black; */
   cursor: default;
+  outline: none !important;
 }
 
 a, a:hover, a:visited {

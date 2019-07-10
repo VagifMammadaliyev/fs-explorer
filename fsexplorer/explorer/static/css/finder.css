@@ -148,6 +148,7 @@ main .node-row .open-project {
   width: 18%;
   border-radius: 15px;
   transition: all 0.1s ease-in-out;
+  margin-right: 0;
 }
 
 main .node-row .open-project:hover {
@@ -165,6 +166,7 @@ main .node-row .hidden.open-project:hover {
 }
 
 main .filenode {
+  float: left;
   border: 3px solid black;
   border-radius: 15px;
   padding: 10px;
@@ -259,6 +261,39 @@ main div.ide form {
   margin-bottom: 0;
 }
 
+.form-button.rename {
+  border: 3px solid purple;
+  border-radius: 15px;
+  background-color: #f2ccfc;
+  color: purple;
+  width: 13%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 1%;
+  margin-right: 0.5%;
+}
+
+.form-button.rename:hover {
+  background-color: white;
+}
+
+.form-button.delete {
+  border: 3px solid #ff0048;
+  border-radius: 15px;
+  background-color: #ff96b4;
+  color: white;
+  width: 13%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 0.5%;
+  margin-right: 0;
+}
+
+.form-button.delete:hover {
+  background-color: white;
+  color: #ff0048;
+}
+
 .form-button.discard {
   display: block;
   text-align: center;
@@ -287,5 +322,13 @@ main div.ide pre {
 
 /* MIXINS */
 .full-width {
-  width: 100% !important;
+  width: 50% !important;
+}
+
+.nice-width {
+  width: 71.6% !important;
+}
+
+.project-width {
+  width: 52% !important;
 }

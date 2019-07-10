@@ -28,6 +28,13 @@ def normalize_path(path):
     return os.path.normpath(path)
 
 
+def normalize_name(name):
+    if name is None:
+        return None
+
+    return name[:200]  # maximum filenode name length
+
+
 def get_paths(filenode):
     """Returns list of tuples with path chunk names and related absolute paths"""
     chunks = filenode.abspath.split(os.path.sep)
@@ -48,7 +55,7 @@ def determine_type(path):
     """Returns file type as FileTypes object"""
     if os.path.isdir(path):
         return FileTypes.FOLDER
-        
+
     else:
         for img_ext in _image_extensions:
             if path.endswith(img_ext):

@@ -3,7 +3,8 @@ import os
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 
-from explorer.utils import normalize_path, get_paths, pdf_response
+from explorer.utils import (
+    normalize_path, get_paths, pdf_response, normalize_name)
 from explorer.utils.filenode import FileNode
 from explorer.utils.filetypes import FileTypes
 from explorer.utils.editor import save_file
@@ -51,7 +52,6 @@ def node(request, abspath):
         return render(request, 'explorer/editor.html', context)
 
 
-
 def create_node(request, abspath):
     if request.method == 'GET':
         return redirect(reverse('node', kwargs={'abspath': abspath}))
@@ -59,8 +59,8 @@ def create_node(request, abspath):
     elif request.method == 'POST':
         abspath = normalize_path(abspath)
 
-        file_name = request.POST.get('file_name')
-        folder_name = request.POST.get('folder_name')
+        file_name = normalize_name(request.POST.get('file_name'))
+        folder_name = normalize_name(request.POST.get('folder_name'))
         resulting_path = os.path.join(abspath, file_name or folder_name)
 
         if file_name:
@@ -69,7 +69,6 @@ def create_node(request, abspath):
             os.makedirs(resulting_path)
 
         return redirect(reverse('node', kwargs={'abspath': abspath}))
-
 
 
 def save_node(request, abspath):
@@ -81,7 +80,7 @@ def save_node(request, abspath):
         content = request.POST['content']
         save_file(filenode, content)
         return redirect(reverse('node', kwargs={'abspath': filenode.parent_node}))
-        
+
     else:
         return HttpResponse('<p>This request method is not supported</p>')
 
@@ -91,6 +90,7 @@ def image(request, img_path):
         img = f.read()
 
     return HttpResponse(img, content_type='image/png')
+
 
 def video(request, vid_path):
     from wsgiref.util import FileWrapper
