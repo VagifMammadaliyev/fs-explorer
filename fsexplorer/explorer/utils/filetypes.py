@@ -21,7 +21,7 @@ descriptions = {
     '.ogg': 'Ogg Vorbis audio file',
     '.wav': 'WAV file',
     '.wma': 'WMA audio file',
-    '..wpl': 'Windows Media Player playlist',
+    '.wpl': 'Windows Media Player playlist',
 
     # Compressed
     '.7z': '7-Zip compressed file',
