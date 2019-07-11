@@ -3,3 +3,6 @@ class InvalidPath(Exception):
 
 class CannotWriteToThisFileType(Exception):
     pass
+
+class UnsafeRemovalAttempt(Exception):
+    pass

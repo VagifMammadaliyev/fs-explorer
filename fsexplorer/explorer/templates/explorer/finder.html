@@ -73,8 +73,8 @@
 
       {% endif %}
 
-      <button action-url="{% url 'rename_node' %}" onclick="renameNodeForm(this)" file-name="{{ node.name }}" abs-path="{{ node.abspath }}" type="button" name="button" class="form-button rename">Rename</button>
-      <button type="button" name="button" class="form-button delete">Delete</button>
+      <button action-url="{% url 'rename_node' %}" onclick="renameNodeForm(this)" file-name="{{ node.name }}" abs-path="{{ node.abspath }}" type="button" class="form-button rename">Rename</button>
+      <button click-count="0" action-url="{% url 'remove_node' %}" onclick="deleteNode(this)" abs-path="{{ node.abspath }}" type="button" class="form-button delete">Delete</button>
 
     </div>
     {% endfor %}

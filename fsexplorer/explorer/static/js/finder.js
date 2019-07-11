@@ -15,6 +15,7 @@ function getCookie(name) {
 
 var csrftoken = getCookie('csrftoken');
 
+
 function createNodeForm(which) {
   document.getElementById('node-form').style.display = 'block'
 
@@ -120,17 +121,61 @@ function renameNode(elem) {
         fileNode.innerText = response["new_name"]
         elem.setAttribute("file-name", response["new_name"])
       } else {
-        let createNodeDiv = document.getElementsByClassName("create-node")[0]
-        let messagePara = document.createElement("p")
-        messagePara.setAttribute("class", "message error")
-        messagePara.innerText = response["message"]
-        let mainDiv = document.getElementsByTagName("main")[0]
-        mainDiv.insertBefore(messagePara, createNodeDiv)
-
-        setTimeout(() => {
-          messagePara.style.display = "none"
-        }, 5000)
+        notify(response["message"])
       }
     },
   });
+}
+
+
+function deleteNode(elem) {
+  let nodeRow = elem.parentNode
+  let clickCount = elem.getAttribute("click-count")
+
+  if (clickCount == "0") {
+    elem.innerText = "REALLY?"
+    elem.setAttribute("click-count", "1")
+
+    setTimeout(() => {
+      elem.innerText = "Delete"
+      elem.setAttribute("click-count", "0")
+    }, 3000)
+  } else if (clickCount == "1") {
+    data = {
+      "abs_path": elem.getAttribute("abs-path"),
+      "csrfmiddlewaretoken": csrftoken,
+    }
+    elem.innerText = "Deleting..."
+
+    $.ajax({
+      type: "POST",
+      url: elem.getAttribute("action-url"),
+      data: data,
+      success: function (response) {
+        if (response["success"]) {
+          nodeRow.parentNode.removeChild(nodeRow)
+        } else {
+          notify(response["message"])
+        }
+      },
+    });
+
+  }
+
+}
+
+
+function notify(message) {
+  let createNodeDiv = document.getElementsByClassName("create-node")[0]
+  let messagePara = document.createElement("p")
+  messagePara.setAttribute("class", "message error")
+  messagePara.innerText = message
+  let mainDiv = document.getElementsByTagName("main")[0]
+  mainDiv.insertBefore(messagePara, createNodeDiv)
+
+  window.scrollTo(0, 0)
+
+  setTimeout(() => {
+    messagePara.style.display = "none"
+  }, 10000)
 }

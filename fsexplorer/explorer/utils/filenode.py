@@ -1,7 +1,10 @@
 import os
+import shutil
+
 from explorer.utils import utils
 from explorer.utils.filetypes import FileTypes
-from explorer.utils.errors.exceptions import CannotWriteToThisFileType
+from explorer.utils.errors.exceptions import (
+    CannotWriteToThisFileType, UnsafeRemovalAttempt)
 
 
 class FileNode:
@@ -13,6 +16,7 @@ class FileNode:
         self.parent_node = os.path.dirname(self.abspath)
         self.hidden = self.name[0] == '.'
         self.type = utils.determine_type(self.abspath)
+        self.removed = False
 
         if self.type != FileTypes.FOLDER:
             self.description = utils.get_file_description(self.abspath)
@@ -41,6 +45,38 @@ class FileNode:
         self.abspath = new_abs_path
         self.name = self._get_name()
         return self.abspath
+
+    def remove(self, *, safe=True):
+        # Dangerous
+        if safe:
+            # Allow removing only visible files inside
+            # home directory and each visible subdirectory
+            home_dir_path = utils.normalize_path(os.environ["HOME"])
+            print(home_dir_path)
+            print(self.abspath  )
+            if home_dir_path in self.abspath and \
+                not self.name.startswith('.'):
+                self._remove_unsafe()
+            else:
+                raise UnsafeRemovalAttempt("""Trying to remove hidden file or file not
+                within home directory. This is considered unsafe. Better delete anything you want manually!
+                """)
+        else:
+            self._remove_unsafe()
+
+    def _remove_unsafe(self):
+        """Removes files from system without ignoring errors occured
+        This is for secutiry reasons and preventing accidentally removing
+        important system files.
+
+        This restriction must work on most *nix distributions"""
+        if self.type == FileTypes.FOLDER:
+            shutil.rmtree(self.abspath)
+        else:
+            os.remove(self.abspath)
+
+        self.removed = True
+
 
     def _get_name(self):
         return self.abspath.split(os.path.sep)[-1]

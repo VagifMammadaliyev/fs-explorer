@@ -94,7 +94,7 @@ def save_node(request, abspath):
 
 def rename_node(request):
     if request.method == 'GET':
-        return redirect(reverse('node', kwargs={'abspath': abspath}))
+        return redirect(reverse('home'))
 
     elif request.method == 'POST':
         new_node_name = request.POST.get('node_name')
@@ -114,6 +114,41 @@ def rename_node(request):
                 node.rename(new_node_name)
                 response = {
                     'new_name': node.name,
+                    'success': True,
+                    'message': '',
+                }
+            except Exception as e:
+                response['message'] = str(e)
+
+        else:
+            response['message'] = msg
+
+        return JsonResponse(response)
+
+    else:
+        return HttpResponse('<p>This request method is not supported</p>')
+
+
+def remove_node(request):
+    if request.method == 'GET':
+        return redirect(reverse('home'))
+
+    elif request.method == 'POST':
+        abs_path = request.POST.get('abs_path')
+
+        msg = 'No such file or directory or it is forbidden to remove'
+        response = {
+            'new_name': '',
+            'success': False,
+            'message': msg
+        }
+
+        if  abs_path:
+            node = FileNode(abs_path)
+
+            try:
+                node.remove(safe=True) # !!!
+                response = {
                     'success': True,
                     'message': '',
                 }
