@@ -9,7 +9,7 @@ class FileNode:
         abspath = utils.normalize_path(abspath)
 
         self.abspath = abspath
-        self.name = self.abspath.split(os.path.sep)[-1]
+        self.name = self._get_name()
         self.parent_node = os.path.dirname(self.abspath)
         self.hidden = self.name[0] == '.'
         self.type = utils.determine_type(self.abspath)
@@ -32,6 +32,18 @@ class FileNode:
                 self.content = utils.open_file(self.abspath, self.type)
             elif self.type == FileTypes.OTHER:
                 self.content = '?'
+
+    def rename(self, new_name):
+        new_abs_path = utils.normalize_path(
+            os.path.join(self.parent_node,
+            utils.normalize_name(new_name)))
+        os.rename(self.abspath, new_abs_path)
+        self.abspath = new_abs_path
+        self.name = self._get_name()
+        return self.abspath
+
+    def _get_name(self):
+        return self.abspath.split(os.path.sep)[-1]
 
     def _sort(self):
         if self.type == FileTypes.FOLDER:

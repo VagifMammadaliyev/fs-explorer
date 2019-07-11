@@ -1,6 +1,10 @@
 {% extends 'explorer/base_ui.html' %}
 
 {% block content %}
+  {% for message in messages %}
+    <p class="message {{ message.tags }}">{{ message }}</p>
+  {% endfor %}
+
   <div class="create-node">
     <button id="file-create-button" type="button" class="form-button create" onclick="createNodeForm('file')" name="button">Create file</button>
     <button id="folder-create-button" type="button" class="form-button create" onclick="createNodeForm('folder')" name="button">Create directory</button>
@@ -8,18 +12,20 @@
 
   <form id="node-form" class="create-node-form" method="post" action="{% url 'create_node' filenode.abspath %}">
     {% csrf_token %}
-    <input id="node-name-input" type="text" name="" value="" maxlength="200" placeholder="">
+    <input id="node-name-input" type="text" name="" value="" required maxlength="200" placeholder="">
     <button type="submit" class="form-button save" name="button">Create</button>
   </form>
 
   <div class="filenode-container">
     {% for node in filenode.content %}
     <div class="node-row">
+
       {% if node.hidden %}
       <a href="{{ node.abspath }}"><div class="filenode {% if node.type == FileTypes.FOLDER %}directory{% elif node.type == FileTypes.TEXT or node.type == FileTypes.NONTEXT %}file{% endif %} hidden nice-width">
         <p class="nodename">{{ node.name }}</p>
         <p class="filetype">{% if node.type == FileTypes.FOLDER %}Hidden {{ node.description }}{% elif node.type == FileTypes.TEXT or node.type == FileTypes.NONTEXT %}Hidden {{ node.description }}{% endif %}</p>
       </div></a>
+
       {% elif node.type == FileTypes.FOLDER %}
       <a href="{{ node.abspath }}"><div class="filenode directory nice-width {% if in_projects_dir %}project-width{% endif %}">
         <p class="nodename">{{ node.name }}</p>
@@ -28,39 +34,48 @@
       {% if in_projects_dir %}
       <a href="#" class="open-project">Open as a project</a>
       {% endif %}
+
       {% elif node.type == FileTypes.TEXT %}
       <a href="{{ node.abspath }}"><div class="filenode file nice-width">
         <p class="nodename">{{ node.name }}</p>
         <p class="filetype">{{ node.description }}</p>
       </div></a>
+
       {% elif node.type == FileTypes.NONTEXT %}
       <a href="{{ node.abspath }}"><div class="filenode binary nice-width">
         <p class="nodename">{{ node.name }}</p>
         <p class="filetype">{{ node.description }}</p>
       </div></a>
+
       {% elif node.type == FileTypes.IMAGE %}
       <a href="{{ node.abspath }}"><div class="filenode binary nice-width">
         <p class="nodename">{{ node.name }}</p>
         <p class="filetype">{{ node.description }}</p>
       </div></a>
+
       {% elif node.type == FileTypes.VIDEO %}
       <a href="{{ node.abspath }}"><div class="filenode binary nice-width">
         <p class="nodename">{{ node.name }}</p>
         <p class="filetype">{{ node.description }}</p>
       </div></a>
+
       {% elif node.type == FileTypes.PDF %}
       <a href="{{ node.abspath }}"><div class="filenode binary nice-width">
         <p class="nodename">{{ node.name }}</p>
         <p class="filetype">{{ node.description }}</p>
       </div></a>
+
       {% elif node.type == FileTypes.OTHER %}
       <a href="{{ node.abspath }}"><div class="filenode binary nice-width">
         <p class="nodename">{{ node.name }}</p>
         <p class="filetype">{{ node.description }}</p>
       </div></a>
+
       {% endif %}
-      <button type="button" name="button" class="form-button rename">Rename</button>
+
+      <button action-url="{% url 'rename_node' %}" onclick="renameNodeForm(this)" file-name="{{ node.name }}" abs-path="{{ node.abspath }}" type="button" name="button" class="form-button rename">Rename</button>
       <button type="button" name="button" class="form-button delete">Delete</button>
+
     </div>
     {% endfor %}
   </div>

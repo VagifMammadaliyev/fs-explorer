@@ -1,7 +1,8 @@
 import os
 
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.contrib import messages
 
 from explorer.utils import (
     normalize_path, get_paths, pdf_response, normalize_name)
@@ -38,7 +39,7 @@ def node(request, abspath):
         return render(request, 'explorer/editor.html', context)
 
     elif filenode.type == FileTypes.NONTEXT:
-        context['message'] = 'Please edit this file as Python\'s byte string'
+        messages.info(request, 'Please edit this file as Python\'s byte string')
         return render(request, 'explorer/editor.html', context)
 
     elif filenode.type == FileTypes.VIDEO:
@@ -48,7 +49,7 @@ def node(request, abspath):
         return pdf_response(filenode)
 
     elif filenode.type == FileTypes.OTHER:
-        context['message'] = 'This file type is not supported'
+        messages.error(request, 'This file type is not supported')
         return render(request, 'explorer/editor.html', context)
 
 
@@ -63,10 +64,16 @@ def create_node(request, abspath):
         folder_name = normalize_name(request.POST.get('folder_name'))
         resulting_path = os.path.join(abspath, file_name or folder_name)
 
-        if file_name:
-            open(resulting_path, 'x').close()
-        elif folder_name:
-            os.makedirs(resulting_path)
+        try:
+            if file_name:
+                open(resulting_path, 'x').close()
+            elif folder_name:
+                os.makedirs(resulting_path)
+        except FileExistsError:
+            messages.error(request, 'File with this name already exists')
+        except Exception as e:
+            messages.error(request, str(e))
+
 
         return redirect(reverse('node', kwargs={'abspath': abspath}))
 
@@ -80,6 +87,43 @@ def save_node(request, abspath):
         content = request.POST['content']
         save_file(filenode, content)
         return redirect(reverse('node', kwargs={'abspath': filenode.parent_node}))
+
+    else:
+        return HttpResponse('<p>This request method is not supported</p>')
+
+
+def rename_node(request):
+    if request.method == 'GET':
+        return redirect(reverse('node', kwargs={'abspath': abspath}))
+
+    elif request.method == 'POST':
+        new_node_name = request.POST.get('node_name')
+        abs_path = request.POST.get('abs_path')
+
+        msg = 'Invalid or empty name provided'
+        response = {
+            'new_name': '',
+            'success': False,
+            'message': msg
+        }
+
+        if new_node_name and abs_path:
+            node = FileNode(abs_path)
+
+            try:
+                node.rename(new_node_name)
+                response = {
+                    'new_name': node.name,
+                    'success': True,
+                    'message': '',
+                }
+            except Exception as e:
+                response['message'] = str(e)
+
+        else:
+            response['message'] = msg
+
+        return JsonResponse(response)
 
     else:
         return HttpResponse('<p>This request method is not supported</p>')

@@ -321,6 +321,7 @@ main div.ide pre {
 
 
 /* MIXINS */
+
 .full-width {
   width: 50% !important;
 }
@@ -332,3 +333,39 @@ main div.ide pre {
 .project-width {
   width: 52% !important;
 }
+
+.message {
+  margin: 5px auto;
+  border: 2px solid black;
+  border-radius: 15px;
+  color: black;
+  background-color: white;
+  padding: 5px;
+  max-width: 50%;
+  text-align: center;
+}
+
+.info {
+  border-color: blue;
+  background-color: #b1cdfa;
+  color: blue;
+}
+
+.error {
+  color: red;
+  border-color: red;
+  background-color: #ffc4c4;
+}
+
+.focus-white:focus,
+.focus-white:hover {
+  background-color: white;
+}
+
+.rename-input {
+  border-color: black !important;
+  background-color: white !important;
+  color: black !important;
+}
+
+/* end MIXINS */

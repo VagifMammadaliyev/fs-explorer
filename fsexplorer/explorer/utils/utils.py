@@ -86,7 +86,12 @@ def get_file_description(path):
         if filename.lower().endswith(ext.lower()):
             return desc
 
-    return filename[filename.rfind('.')+1:].upper() + ' file'
+    index = filename.rfind('.')
+
+    if index != -1:
+        return filename[index+1:].upper() + ' file'
+
+    return 'File'
 
 
 def open_file(path, type):

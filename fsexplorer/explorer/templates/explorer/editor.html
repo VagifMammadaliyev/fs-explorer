@@ -1,9 +1,9 @@
 {% extends 'explorer/base_ui.html' %}
 
 {% block content %}
-  {% if message %}
-    <p style="text-align: center">{{ message }}</p>
-  {% endif %}
+  {% for message in messages %}
+    <p class="message {{ message.tags }}" style="text-align: center">{{ message }}</p>
+  {% endfor %}
   <div class="ide-container">
     <div class="ide">
       <pre>
